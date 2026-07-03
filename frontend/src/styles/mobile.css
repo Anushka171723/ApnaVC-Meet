@@ -1,0 +1,108 @@
+/* Mobile Responsive Styles for Authentication and Other Pages */
+
+/* Authentication Page Mobile Styles */
+@media screen and (max-width: 768px) {
+  /* Override MUI Grid styles for mobile */
+  .MuiGrid-root.MuiGrid-container {
+    flex-direction: column;
+  }
+
+  .MuiGrid-root.MuiGrid-item {
+    max-width: 100% !important;
+    flex-basis: 100% !important;
+  }
+
+  /* Hide the background image on mobile */
+  .MuiGrid-root.MuiGrid-item:first-child {
+    display: none !important;
+  }
+
+  /* Full screen form on mobile */
+  .MuiGrid-root.MuiGrid-item.MuiPaper-root {
+    width: 100% !important;
+  }
+
+  /* Adjust form padding */
+  .MuiBox-root {
+    margin: 2rem 1.5rem !important;
+  }
+
+  /* Button group spacing */
+  .MuiBox-root .MuiButton-root {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .MuiBox-root {
+    margin: 1rem 1rem !important;
+  }
+
+  .MuiTextField-root {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .MuiButton-root {
+    font-size: 0.8rem !important;
+  }
+
+  .MuiTypography-h5 {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* History Page Mobile Styles */
+@media screen and (max-width: 768px) {
+  .MuiCard-root {
+    margin: 10px;
+  }
+
+  .MuiCardContent-root {
+    padding: 12px !important;
+  }
+
+  .MuiTypography-root {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* VideoMeet Lobby Mobile Styles */
+@media screen and (max-width: 768px) {
+  .videoMeetLobby {
+    padding: 20px;
+    text-align: center;
+  }
+
+  .videoMeetLobby h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .videoMeetLobby .MuiTextField-root {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .videoMeetLobby .MuiButton-root {
+    width: 100%;
+  }
+
+  .videoMeetLobby video {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .videoMeetLobby h2 {
+    font-size: 1.2rem;
+  }
+
+  .videoMeetLobby video {
+    max-width: 100%;
+  }
+}

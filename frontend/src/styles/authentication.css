@@ -1,0 +1,745 @@
+/* Authentication Page Styles */
+
+.authContainer {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+}
+
+/* Left Side - Branding */
+.authLeft {
+  flex: 1;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.authLeft::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: rgba(255, 152, 57, 0.05);
+  border-radius: 50%;
+  top: -200px;
+  right: -200px;
+}
+
+.authLeft::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 152, 57, 0.05);
+  border-radius: 50%;
+  bottom: -100px;
+  left: -100px;
+}
+
+.authBranding {
+  max-width: 500px;
+  z-index: 1;
+  color: white;
+}
+
+.authLogo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.authLogo .logoIcon svg {
+  filter: drop-shadow(0 4px 12px rgba(255, 152, 57, 0.3));
+}
+
+.authLogoText {
+  display: flex;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  gap: 0;
+}
+
+.authLogoText .logoApna {
+  color: white;
+}
+
+.authLogoText .logoVC {
+  color: #FF9F43;
+}
+
+.authLogoTagline {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.authHeading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.authSubheading {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+/* Floating Feature Cards */
+.floatingCards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 3rem;
+}
+
+.floatingCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  color: white;
+  animation: floatAnimation 3s ease-in-out infinite;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.floatingCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.floatingCard.card1 {
+  animation-delay: 0s;
+}
+
+.floatingCard.card2 {
+  animation-delay: 1s;
+}
+
+.floatingCard.card3 {
+  animation-delay: 2s;
+}
+
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.cardIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.cardContent h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem 0;
+  color: white;
+}
+
+.cardContent p {
+  font-size: 0.85rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.authFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.authFeatureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1rem;
+  color: white;
+}
+
+.featureIconSmall {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Right Side - Form */
+.authRight {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #FF9F43 0%, #e08830 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.authRight::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  top: -150px;
+  right: -150px;
+}
+
+.authRight::after {
+  content: '';
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  bottom: -80px;
+  left: -80px;
+}
+
+.authFormContainer {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+}
+
+.backButton {
+  background: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  color: #333;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.backButton:hover {
+  background: #000;
+  color: white;
+  border-color: #000;
+}
+
+.authCard {
+  background: #1E1E1E;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+/* Tab Switcher */
+.authTabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 0.4rem;
+}
+
+.authTab {
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.authTab.active {
+  background: #FF9F43;
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 152, 57, 0.3);
+}
+
+.authTab:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: #FF9F43;
+}
+
+/* Form Title */
+.formTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.formSubtitle {
+  font-size: 0.95rem;
+  color: #aaa;
+  margin-bottom: 2rem;
+}
+
+/* Alerts */
+.successAlert,
+.errorAlert {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.successAlert {
+  background: rgba(46, 213, 115, 0.1);
+  border: 1px solid rgba(46, 213, 115, 0.3);
+  color: #2ed573;
+}
+
+.errorAlert {
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  color: #ff4757;
+}
+
+.successIcon,
+.errorIcon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.successIcon {
+  background: rgba(46, 213, 115, 0.2);
+  color: #2ed573;
+}
+
+.errorIcon {
+  background: rgba(255, 71, 87, 0.2);
+  color: #ff4757;
+}
+
+/* Form Fields */
+.formFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  color: #ccc;
+  font-weight: 500;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.inputGroup input::placeholder {
+  color: #666;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #FF9F43;
+  box-shadow: 0 0 0 3px rgba(255, 152, 57, 0.1);
+}
+
+.inputGroup input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Password wrapper for eye icon */
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordWrapper input {
+  width: 100%;
+  padding-right: 3.5rem;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 0.7rem;
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  z-index: 2;
+}
+
+.passwordToggle:hover {
+  color: #FF9F43;
+  background: rgba(255, 152, 57, 0.1);
+}
+
+.passwordToggle svg {
+  font-size: 1.2rem !important;
+}
+
+.inputGroup input::placeholder {
+  color: #666;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #FF9F43;
+  box-shadow: 0 0 0 3px rgba(255, 152, 57, 0.1);
+}
+
+.inputGroup input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Form Extras */
+.formExtras {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -0.5rem;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #aaa;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.rememberMe input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #FF9F43;
+}
+
+.forgotPassword {
+  color: #FF9F43;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.forgotPassword:hover {
+  color: #e08830;
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.submitButton {
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #FF9F43 0%, #e08830 100%);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 152, 57, 0.4);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Alternative Options */
+.authAlternative {
+  margin-top: 2rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.divider span {
+  padding: 0 1rem;
+}
+
+.guestButton {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.guestButton:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: #FF9F43;
+  color: #FF9F43;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 968px) {
+  .authContainer {
+    flex-direction: column;
+  }
+
+  .authLeft {
+    min-height: 50vh;
+    padding: 2rem 1.5rem;
+  }
+
+  .authHeading {
+    font-size: 2rem;
+  }
+
+  .authSubheading {
+    font-size: 1rem;
+  }
+
+  .floatingCards {
+    margin-top: 2rem;
+  }
+
+  .floatingCard {
+    padding: 1rem 1.2rem;
+  }
+
+  .cardIcon {
+    font-size: 1.5rem;
+  }
+
+  .cardContent h4 {
+    font-size: 0.9rem;
+  }
+
+  .cardContent p {
+    font-size: 0.8rem;
+  }
+
+  .authRight {
+    padding: 1.5rem;
+  }
+
+  .authCard {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .authLeft {
+    min-height: 45vh;
+    padding: 1.5rem 1rem;
+  }
+
+  .authLogo .logoIcon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .authLogoText {
+    font-size: 2rem;
+  }
+
+  .authLogoTagline {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .authHeading {
+    font-size: 1.5rem;
+  }
+
+  .authSubheading {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .floatingCards {
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .floatingCard {
+    padding: 0.8rem 1rem;
+    gap: 0.8rem;
+  }
+
+  .cardIcon {
+    font-size: 1.3rem;
+  }
+
+  .cardContent h4 {
+    font-size: 0.85rem;
+  }
+
+  .cardContent p {
+    font-size: 0.75rem;
+  }
+
+  .authRight {
+    padding: 1rem;
+  }
+
+  .authCard {
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+  }
+
+  .formTitle {
+    font-size: 1.5rem;
+  }
+
+  .backButton {
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .authTab {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .inputGroup input {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .passwordWrapper input {
+    padding-right: 3rem;
+  }
+
+  .passwordToggle {
+    right: 0.6rem;
+  }
+
+  .passwordToggle svg {
+    font-size: 1.1rem !important;
+  }
+
+  .submitButton {
+    padding: 0.9rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .formExtras {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
