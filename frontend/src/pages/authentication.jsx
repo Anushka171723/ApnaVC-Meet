@@ -5,53 +5,121 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import '../styles/authentication.css';
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+
 export default function Authentication() {
     const navigate = useNavigate();
-    const [username, setUsername] = React.useState("");
+    const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [confirmPassword, setConfirmPassword] = React.useState("");
     const [name, setName] = React.useState("");
     const [error, setError] = React.useState("");
+    const [fieldErrors, setFieldErrors] = React.useState({});
     const [message, setMessage] = React.useState("");
     const [loading, setLoading] = React.useState(false);
     const [formState, setFormState] = React.useState(0); // 0: login, 1: signup
     const [showSuccess, setShowSuccess] = React.useState(false);
     const [showPassword, setShowPassword] = React.useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
     const { handleRegister, handleLogin } = React.useContext(AuthContext);
 
+    const validateEmail = (value) => {
+        const trimmedEmail = value.trim();
+
+        if (!trimmedEmail) {
+            return "email is required.";
+        }
+
+        if (!emailPattern.test(trimmedEmail)) {
+            return "Please enter a valid email address.";
+        }
+
+        return "";
+    };
+
+    const validatePassword = (value) => {
+        if (!value) {
+            return "Password is required.";
+        }
+
+        if (value.length < 8) {
+            return "Password must be at least 8 characters.";
+        }
+
+        if (!strongPasswordPattern.test(value)) {
+            return "Password must contain an uppercase letter, lowercase letter, number and special character.";
+        }
+
+        return "";
+    };
+
+    const validateForm = () => {
+        const nextErrors = {};
+
+        if (formState === 1 && !name.trim()) {
+            nextErrors.name = "Full name is required.";
+        }
+
+        const emailError = validateEmail(email);
+        if (emailError) {
+            nextErrors.email = emailError;
+        }
+
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            nextErrors.password = passwordError;
+        }
+
+        if (formState === 1) {
+            if (!confirmPassword) {
+                nextErrors.confirmPassword = "Confirm password is required.";
+            } else if (password !== confirmPassword) {
+                nextErrors.confirmPassword = "Passwords do not match.";
+            }
+        }
+
+        setFieldErrors(nextErrors);
+        return Object.keys(nextErrors).length === 0;
+    };
+
+    const clearFieldError = (fieldName) => {
+        setFieldErrors((currentErrors) => {
+            if (!currentErrors[fieldName]) return currentErrors;
+
+            const nextErrors = { ...currentErrors };
+            delete nextErrors[fieldName];
+            return nextErrors;
+        });
+    };
+
     const handleAuth = async () => {
         setError("");
+        setShowSuccess(false);
+
+        if (!validateForm()) {
+            return;
+        }
+
         setLoading(true);
         
         try {
+            const normalizedEmail = email.trim().toLowerCase();
+
             if (formState === 0) {
-                // Login
-                if (!username || !password) {
-                    setError("Please enter both username and password");
-                    setLoading(false);
-                    return;
-                }
-                await handleLogin(username, password);
+                await handleLogin(normalizedEmail, password);
             } else {
-                // Register
-                if (!name || !username || !password) {
-                    setError("Please fill in all fields");
-                    setLoading(false);
-                    return;
-                }
-                if (password.length < 6) {
-                    setError("Password must be at least 6 characters");
-                    setLoading(false);
-                    return;
-                }
-                let result = await handleRegister(name, username, password);
+                let result = await handleRegister(name.trim(), normalizedEmail, password);
                 
-                setUsername("");
+                setEmail("");
                 setName("");
                 setPassword("");
+                setConfirmPassword("");
                 setMessage(result || "Registration successful! Please login.");
                 setShowSuccess(true);
                 setError("");
+                setFieldErrors({});
                 setFormState(0);
                 
                 setTimeout(() => setShowSuccess(false), 4000);
@@ -150,6 +218,8 @@ export default function Authentication() {
                                 onClick={() => { 
                                     setFormState(0); 
                                     setError('');
+                                    setFieldErrors({});
+                                    setConfirmPassword('');
                                 }}
                             >
                                 Sign In
@@ -159,6 +229,7 @@ export default function Authentication() {
                                 onClick={() => { 
                                     setFormState(1); 
                                     setError('');
+                                    setFieldErrors({});
                                 }}
                             >
                                 Sign Up
@@ -201,25 +272,37 @@ export default function Authentication() {
                                         id="fullname"
                                         placeholder="Enter your full name"
                                         value={name}
-                                        onChange={(e) => setName(e.target.value)}
+                                        onChange={(e) => {
+                                            setName(e.target.value);
+                                            clearFieldError("name");
+                                        }}
                                         onKeyPress={handleKeyPress}
                                         disabled={loading}
+                                        aria-invalid={Boolean(fieldErrors.name)}
                                     />
+                                    {fieldErrors.name && <p className="fieldError">{fieldErrors.name}</p>}
                                 </div>
                             )}
 
                             <div className="inputGroup">
-                                <label htmlFor="username">Username</label>
+                                <label htmlFor="email">Email Address</label>
                                 <input
-                                    type="text"
-                                    id="username"
-                                    placeholder="Enter your username"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    autoComplete="email"
+                                    placeholder="Enter your email address"
+                                    value={email}
+                                    onChange={(e) => {
+                                        setEmail(e.target.value);
+                                        clearFieldError("email");
+                                    }}
                                     onKeyPress={handleKeyPress}
                                     disabled={loading}
                                     autoFocus={formState === 0}
+                                    aria-invalid={Boolean(fieldErrors.email)}
                                 />
+                                {fieldErrors.email && <p className="fieldError">{fieldErrors.email}</p>}
                             </div>
 
                             <div className="inputGroup">
@@ -228,11 +311,18 @@ export default function Authentication() {
                                     <input
                                         type={showPassword ? "text" : "password"}
                                         id="password"
+                                        name="password"
+                                        autoComplete={formState === 0 ? "current-password" : "new-password"}
                                         placeholder="Enter your password"
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value);
+                                            clearFieldError("password");
+                                            clearFieldError("confirmPassword");
+                                        }}
                                         onKeyPress={handleKeyPress}
                                         disabled={loading}
+                                        aria-invalid={Boolean(fieldErrors.password)}
                                     />
                                     <button
                                         type="button"
@@ -243,7 +333,40 @@ export default function Authentication() {
                                         {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                                     </button>
                                 </div>
+                                {fieldErrors.password && <p className="fieldError">{fieldErrors.password}</p>}
                             </div>
+
+                            {formState === 1 && (
+                                <div className="inputGroup">
+                                    <label htmlFor="confirmPassword">Confirm Password</label>
+                                    <div className="passwordWrapper">
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            id="confirmPassword"
+                                            name="confirmPassword"
+                                            autoComplete="new-password"
+                                            placeholder="Confirm your password"
+                                            value={confirmPassword}
+                                            onChange={(e) => {
+                                                setConfirmPassword(e.target.value);
+                                                clearFieldError("confirmPassword");
+                                            }}
+                                            onKeyPress={handleKeyPress}
+                                            disabled={loading}
+                                            aria-invalid={Boolean(fieldErrors.confirmPassword)}
+                                        />
+                                        <button
+                                            type="button"
+                                            className="passwordToggle"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                            aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                                        >
+                                            {showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                        </button>
+                                    </div>
+                                    {fieldErrors.confirmPassword && <p className="fieldError">{fieldErrors.confirmPassword}</p>}
+                                </div>
+                            )}
 
                             {formState === 0 && (
                                 <div className="formExtras">
@@ -251,7 +374,7 @@ export default function Authentication() {
                                         <input type="checkbox" />
                                         <span>Remember me</span>
                                     </label>
-                                    <a href="#" className="forgotPassword">Forgot password?</a>
+                                    <button type="button" className="forgotPassword">Forgot password?</button>
                                 </div>
                             )}
 
@@ -271,18 +394,6 @@ export default function Authentication() {
                             </button>
                         </div>
 
-                        {/* Alternative Options */}
-                        <div className="authAlternative">
-                            <div className="divider">
-                                <span>or</span>
-                            </div>
-                            <button 
-                                className="guestButton"
-                                onClick={() => navigate('/home')}
-                            >
-                                Join as Guest
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

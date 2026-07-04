@@ -18,10 +18,26 @@ function HomeComponent() {
         navigate(`/${meetingCode}`)
     }
 
+    const goToLandingPage = () => {
+        navigate("/")
+    }
+
     return (
         <div className="homePageContainer">
             <div className="navBar">
-                <div className="navBarBrand">
+                <div
+                    className="navBarBrand"
+                    role="button"
+                    tabIndex={0}
+                    onClick={goToLandingPage}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            goToLandingPage();
+                        }
+                    }}
+                    aria-label="Go to landing page"
+                >
                     <div className="logoIcon">
                         <svg width="35" height="35" viewBox="0 0 40 40" fill="none">
                             <circle cx="20" cy="20" r="20" fill="#FF9F43"/>
@@ -47,7 +63,7 @@ function HomeComponent() {
                         className="navButton logoutButton"
                         onClick={() => {
                             localStorage.removeItem("token")
-                            navigate("/auth")
+                            navigate("/")
                         }}
                     >
                         Logout

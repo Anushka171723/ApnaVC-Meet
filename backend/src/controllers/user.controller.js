@@ -1,19 +1,62 @@
 import httpStatus from "http-status";
 import { User } from "../models/user.model.js";
-import bcrypt, { hash } from "bcrypt"
+import bcrypt from "bcrypt"
 
 import crypto from "crypto"
 import { Meeting } from "../models/meeting.model.js";
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/;
+
+const normalizeEmail = (email) => {
+    return typeof email === "string" ? email.trim().toLowerCase() : "";
+}
+
+const validateEmail = (email) => {
+    if (!email) {
+        return "email is required.";
+    }
+
+    if (!emailPattern.test(email)) {
+        return "Please enter a valid email address.";
+    }
+
+    return "";
+}
+
+const validatePassword = (password) => {
+    if (!password) {
+        return "Password is required.";
+    }
+
+    if (password.length < 8) {
+        return "Password must be at least 8 characters.";
+    }
+
+    if (!strongPasswordPattern.test(password)) {
+        return "Password must contain an uppercase letter, lowercase letter, number and special character.";
+    }
+
+    return "";
+}
+
 const login = async (req, res) => {
 
-    const { username, password } = req.body;
+    const { password } = req.body;
+    const email = normalizeEmail(req.body.email || req.body.username);
 
-    if (!username || !password) {
-        return res.status(400).json({ message: "Please Provide" })
+    const emailError = validateEmail(email);
+    if (emailError) {
+        return res.status(httpStatus.BAD_REQUEST).json({ message: emailError })
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        return res.status(httpStatus.BAD_REQUEST).json({ message: passwordError })
     }
 
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ $or: [{ email }, { username: email }] });
         if (!user) {
             return res.status(httpStatus.NOT_FOUND).json({ message: "User Not Found" })
         }
@@ -25,10 +68,13 @@ const login = async (req, res) => {
             let token = crypto.randomBytes(20).toString("hex");
 
             user.token = token;
+            if (!user.email) {
+                user.email = email;
+            }
             await user.save();
             return res.status(httpStatus.OK).json({ token: token })
         } else {
-            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid Username or password" })
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid email or password" })
         }
 
     } catch (e) {
@@ -38,11 +84,25 @@ const login = async (req, res) => {
 
 
 const register = async (req, res) => {
-    const { name, username, password } = req.body;
+    const { name, password } = req.body;
+    const email = normalizeEmail(req.body.email || req.body.username);
 
+    if (!name || !name.trim()) {
+        return res.status(httpStatus.BAD_REQUEST).json({ message: "Full name is required." });
+    }
+
+    const emailError = validateEmail(email);
+    if (emailError) {
+        return res.status(httpStatus.BAD_REQUEST).json({ message: emailError });
+    }
+
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+        return res.status(httpStatus.BAD_REQUEST).json({ message: passwordError });
+    }
 
     try {
-        const existingUser = await User.findOne({ username });
+        const existingUser = await User.findOne({ $or: [{ email }, { username: email }] });
         if (existingUser) {
             return res.status(httpStatus.FOUND).json({ message: "User already exists" });
         }
@@ -50,8 +110,9 @@ const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
-            name: name,
-            username: username,
+            name: name.trim(),
+            email: email,
+            username: email,
             password: hashedPassword
         });
 
@@ -71,7 +132,13 @@ const getUserHistory = async (req, res) => {
 
     try {
         const user = await User.findOne({ token: token });
-        const meetings = await Meeting.find({ user_id: user.username })
+
+        if (!user) {
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid token" })
+        }
+
+        const userIdentifiers = [user.email, user.username].filter(Boolean);
+        const meetings = await Meeting.find({ user_id: { $in: userIdentifiers } })
         res.json(meetings)
     } catch (e) {
         res.json({ message: `Something went wrong ${e}` })
@@ -84,8 +151,12 @@ const addToHistory = async (req, res) => {
     try {
         const user = await User.findOne({ token: token });
 
+        if (!user) {
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid token" })
+        }
+
         const newMeeting = new Meeting({
-            user_id: user.username,
+            user_id: user.email || user.username,
             meetingCode: meeting_code
         })
 

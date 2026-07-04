@@ -12,11 +12,11 @@ export const AuthProvider = ({ children }) => {
     const [userData,setUserData]=useState({});
     const router=useNavigate();
 
-    const handleRegister = async (name, username, password) => {
+    const handleRegister = async (name, email, password) => {
         try {
             let request = await client.post("/register", {
                 name: name,
-                username: username,
+                email: email,
                 password: password
             })
 
@@ -29,15 +29,12 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const handleLogin = async (username, password) => {
+    const handleLogin = async (email, password) => {
         try {
             let request = await client.post("/login", {
-                username: username,
+                email: email,
                 password: password
             });
-
-            console.log(username, password)
-            console.log(request.data)
 
             if (request.status === httpStatus.OK) {
                 localStorage.setItem("token", request.data.token);

@@ -232,22 +232,37 @@
 }
 
 .backButton {
-  background: transparent;
-  border: 2px solid rgba(0, 0, 0, 0.5);
-  color: #333;
-  padding: 0.6rem 1.2rem;
+  background: #050505;
+  border: 2px solid #050505;
+  color: white;
+  padding: 0.7rem 1.35rem;
   border-radius: 8px;
   cursor: pointer;
   font-size: 0.9rem;
   margin-bottom: 2rem;
   transition: all 0.3s ease;
-  font-weight: 500;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
 }
 
 .backButton:hover {
-  background: #000;
+  background: #111111;
   color: white;
-  border-color: #000;
+  border-color: #FF9F43;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32), 0 0 0 3px rgba(255, 159, 67, 0.18);
+}
+
+.backButton:active {
+  transform: translateY(0);
+  background: #000;
+  border-color: #FF9F43;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.28), 0 0 0 3px rgba(255, 159, 67, 0.24);
+}
+
+.backButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 159, 67, 0.32), 0 8px 20px rgba(0, 0, 0, 0.22);
 }
 
 .authCard {
@@ -406,9 +421,20 @@
   box-shadow: 0 0 0 3px rgba(255, 152, 57, 0.1);
 }
 
+.inputGroup input[aria-invalid="true"] {
+  border-color: #ff4757;
+}
+
 .inputGroup input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.fieldError {
+  color: #ff6b7a;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  margin: 0.15rem 0 0;
 }
 
 /* Password wrapper for eye icon */
@@ -489,10 +515,14 @@
 }
 
 .forgotPassword {
+  background: transparent;
+  border: none;
+  padding: 0;
   color: #FF9F43;
   text-decoration: none;
   font-size: 0.9rem;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .forgotPassword:hover {
@@ -546,50 +576,6 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-/* Alternative Options */
-.authAlternative {
-  margin-top: 2rem;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 1.5rem 0;
-  color: #666;
-  font-size: 0.9rem;
-}
-
-.divider::before,
-.divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.divider span {
-  padding: 0 1rem;
-}
-
-.guestButton {
-  width: 100%;
-  padding: 1rem 1.5rem;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  color: white;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.guestButton:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: #FF9F43;
-  color: #FF9F43;
 }
 
 /* Mobile Responsive */
